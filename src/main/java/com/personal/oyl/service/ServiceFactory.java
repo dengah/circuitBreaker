@@ -1,4 +1,4 @@
-package com.personal.oyl.circuitBreaker.service;
+package com.personal.oyl.service;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
@@ -8,23 +8,13 @@ import java.util.concurrent.Callable;
 
 import com.personal.oyl.circuitBreaker.CircuitBreaker;
 import com.personal.oyl.circuitBreaker.CircuitBreakerException;
-import com.personal.oyl.circuitBreaker.ExceptionCircuitBreaker;
-import com.personal.oyl.circuitBreaker.ExceptionCircuitBreakerInterceptor;
 
 public class ServiceFactory {
 
-    public static MyService getService() {
+    public static MyService getService(final CircuitBreaker cb) {
 
         final MyService service = new MyServiceImpl();
-        final CircuitBreaker cb = new ExceptionCircuitBreaker(new ExceptionCircuitBreakerInterceptor() {
-
-            @Override
-            public boolean including(Throwable cause) {
-                return cause instanceof IllegalArgumentException;
-            }
-            
-        });
-
+        
         return (MyService) Proxy.newProxyInstance(service.getClass()
                 .getClassLoader(), service.getClass().getInterfaces(),
                 new InvocationHandler() {

@@ -5,9 +5,9 @@
  * Copyright (C) 2006-2016 Tuniu All rights reserved
  */
  
-package com.personal.oyl.circuitBreaker.service;
+package com.personal.oyl.service;
 
 public interface MyService
 {
-    String queryString(boolean flag);
+    String queryString(int flag);
 }
